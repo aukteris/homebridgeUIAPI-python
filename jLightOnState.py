@@ -4,12 +4,12 @@ import sys
 
 command = int(sys.argv[1])
 
-domain = "minihome.dankurtz.local"
+domain = "XXXXXX"
 port = 8581
-username = "admin"
-password = "F1&ur4t1v3"
+username = "XXXXXX"
+password = "XXXXXX"
 
-accessoryId = "3a7e0d9e2008c3140073e1997107a86e1ec9ea3e7d717af863f22a10e14bad31"
+accessoryId = "XXXXXX"
 
 class homebridgeApi:
     tokenFile = "token.txt"
