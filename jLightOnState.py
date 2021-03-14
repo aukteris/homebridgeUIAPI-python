@@ -68,5 +68,5 @@ class homebridgeApi:
         #r = requests.put(endpoint, data, headers=headers)
 
 
-hb = homebridgeApi(config['username'],config['password'],domain=config['domain'],port=config['port'])
+hb = homebridgeApi(config['username'],config['password'],domain=config['host'],port=config['port'])
 hb.setAccessory(config['accessoryId'], "Brightness", command*100)
