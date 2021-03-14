@@ -1,6 +1,5 @@
 import requests
 import json
-import sys
 
 class homebridgeApi:
     tokenFile = "token.txt"
