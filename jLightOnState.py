@@ -4,12 +4,11 @@ import sys
 
 command = int(sys.argv[1])
 
-domain = "XXXXXX"
-port = 8581
-username = "XXXXXX"
-password = "XXXXXX"
+config = None
 
-accessoryId = "XXXXXX"
+configJson = "config.json"
+with open(configJson, "r") as f:
+    config = json.loads(f.read())
 
 class homebridgeApi:
     tokenFile = "token.txt"
@@ -69,5 +68,5 @@ class homebridgeApi:
         #r = requests.put(endpoint, data, headers=headers)
 
 
-hb = homebridgeApi(username,password,domain=domain,port=port)
-hb.setAccessory(accessoryId, "Brightness", command*100)
+hb = homebridgeApi(config['username'],config['password'],domain=config['domain'],port=config['port'])
+hb.setAccessory(config['accessoryId'], "Brightness", command*100)
