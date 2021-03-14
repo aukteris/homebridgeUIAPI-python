@@ -60,13 +60,14 @@ class homebridgeApi:
     def setAccessory(self, uniqueId, char, value):
 
         endpoint = self.baseUrl + "/api/accessories/" + uniqueId
-        data = {'characteristicType':char,
-                'value':value}
-        headers = {'Authorization':self.access_token}
-        print(data)
-        print(headers)
-        #r = requests.put(endpoint, data, headers=headers)
-
+        data = {"characteristicType":char,
+                "value":value}
+        headers = {'Authorization':self.access_token,
+                    'Content-Type':'application/json'}
+        
+        dataString = json.dumps(data)
+        r = requests.put(endpoint, dataString, headers=headers)
+        print(r.status_code)
 
 hb = homebridgeApi(config['username'],config['password'],domain=config['host'],port=config['port'])
 hb.setAccessory(config['accessoryId'], "Brightness", command*100)
