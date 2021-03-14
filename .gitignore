@@ -1,2 +1,4 @@
 config.json
 token.txt
+
+__pycache__
