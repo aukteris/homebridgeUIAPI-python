@@ -6,7 +6,10 @@ configJson = "config.json"
 with open(configJson, "r") as f:
     config = json.loads(f.read())
 
-hb = hbApi.hbApi(configJson['host'])
-hb.authorize(configJson['username'],configJson['password'])
+hb = hbApi.hbApi(config['host'])
+hb.authorize(config['username'],config['password'])
 
-check = hb.apiRequest("/api/auth/check", "get")
+accessoryResult = hb.findAccessories("Jonahs Room Light")
+jonashLight = accessoryResult[0]
+
+print(jonahsLight['uniqueId'])

@@ -22,13 +22,7 @@ class hbApi:
         except:
             print("Unable to open Homebridge UI API JSON definition")
 
-    def authorize(self,username,password,otp=""):
-        self.authorization = self.apiRequest("/api/auth/login","post",requestBody={"username":username,"password":password})
-        
-        if self.authorization['status_code'] != 201:
-            print("Error with authorization: "+ json.dumps(self.authorization['body']))
-            
-
+    # apiRequest method to handle and validate all requests to an endpoint
     def apiRequest(self, path, method, requestBody={}, parameters={}):
         headers = {"accept":"*/*"}
 
@@ -40,7 +34,16 @@ class hbApi:
         try:
             # process paramters
             if 'parameters' in pathDef:
-                pass
+                if len(pathDef['parameters']) > 0 and len(parameters) == 0:
+                    raise Exception("Parameters are required for endpoint")
+
+                for i in pathDef['parameters']:
+                    for key in parameters.keys():
+                        if i['name'] == key:
+                            path.replace("{"+key+"}",parameters[key])
+                
+                if path.find("{") != -1:
+                    raise Exception("Problem processing parameters")
 
             # process the body
             if 'requestBody' in pathDef:
@@ -76,7 +79,6 @@ class hbApi:
                         if self.authorization['body']['token_type'].lower() == key:
                             headers['Authorization'] = self.authorization['body']['token_type'] + " " + self.authorization['body']['access_token']
 
-
         except Exception as inst:
             print(inst)
 
@@ -93,7 +95,7 @@ class hbApi:
             callout = methods[method](url=endpoint, data=requestBodyString, headers=headers)
             
             response = {"status_code":callout.status_code,
-                        "body":jsonref.loads(callout.text)}
+                        "body":json.loads(callout.text)}
 
         except Exception as inst:
             print(inst)
@@ -102,6 +104,38 @@ class hbApi:
             print("Unknown error with HTTP request")
         
         return response
+    
+    # authorization
+    def authorize(self,username,password,otp=""):
+        self.authorization = self.apiRequest("/api/auth/login","post",requestBody={"username":username,"password":password})
+        
+        if self.authorization['status_code'] != 201:
+            print("Error with authorization: "+ json.dumps(self.authorization['body']))
+
+    def findAccessories(self, name):
+        try: 
+            accessoryQuery = self.apiRequest("/api/accessories","get")
+
+            if accessoryQuery['status_code'] != 200:
+                message = "Callout error trying to find accessory:"+ json.dumps(accessory['body'])
+                raise Exception(message)
             
+            else:
+                results = []
+
+                for i in accessoryQuery['body']:
+                    if i['serviceName'] == name:
+                        results.append(i)
+                
+                if len(results) > 0:
+                    return results
+                else:
+                    raise Exception("No accessories found")
+
+        except Exception as inst:
+            print(inst)
+
+        except:
+            print("Unkown error trying to find accessory")
     
         
