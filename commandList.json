@@ -1,0 +1,23 @@
+[
+    [
+        ["-R", "--request"],{"action":"store_true", "help":"Direct reqeust against the API","dest":"directApiRequest"}
+    ],[
+        ["-E", "--endpoint"],{"help":"Endpoint for the API request","dest":"endpoint"}
+    ],[
+        ["-M", "--method"],{"help":"Method for the API request","dest":"method"}
+    ],[
+        ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId"}
+    ],[
+        ["-A", "--authorize"],{"action":"store_true","help":"Authorize the API for requests to a particular host","dest":"authorizationRequest"}
+    ],[
+        ["-H", "--host"],{"help":"Host for authorization or api request","dest":"host"}
+    ],[
+        ["-P", "--port"],{"help":"Port for authorization","dest":"port"}
+    ],[
+        ["-U", "--user"],{"help":"Usernamne for authorization","dest":"username"}
+    ],[
+        ["-C", "--pass"],{"help":"Password for authorization","dest":"password"}
+    ],[
+        ["-F", "--config"],{"help":"Configuration file to be used for request","dest":"configFile"}
+    ]
+]

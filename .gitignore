@@ -2,3 +2,6 @@ config.json
 token.txt
 
 __pycache__
+
+.authStore
+.sessionStore

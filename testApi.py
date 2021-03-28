@@ -10,6 +10,6 @@ hb = hbApi.hbApi(config['host'])
 hb.authorize(config['username'],config['password'])
 
 accessoryResult = hb.findAccessories("Jonahs Room Light")
-jonashLight = accessoryResult[0]
+jonahsLight = accessoryResult[0]
 
-print(jonahsLight['uniqueId'])
+print(json.dumps(jonahsLight))

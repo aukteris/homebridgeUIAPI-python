@@ -85,6 +85,7 @@ class hbApi:
         except:
             print('Unkown error processing method')
 
+        # compile all the details and then make the callout
         requestBodyString = json.dumps(requestBody)
         endpoint = "http://" + self.host + ":" + str(self.port) + path
         callout = None
@@ -95,6 +96,8 @@ class hbApi:
             callout = methods[method](url=endpoint, data=requestBodyString, headers=headers)
             
             response = {"status_code":callout.status_code,
+                        "host":self.host,
+                        "port":self.port,
                         "body":json.loads(callout.text)}
 
         except Exception as inst:
