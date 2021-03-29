@@ -6,6 +6,10 @@
     ],[
         ["-M", "--method"],{"help":"Method for the API request","dest":"method"}
     ],[
+        ["-B", "--requestbody"],{"help":"JSON data for the API request body","dest":"requestBody"}
+    ],[
+        ["-T", "--parameters"],{"help":"JSON data for the API parameters","dest":"parameters"}
+    ],[
         ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId"}
     ],[
         ["-A", "--authorize"],{"action":"store_true","help":"Authorize the API for requests to a particular host","dest":"authorizationRequest"}
@@ -19,5 +23,11 @@
         ["-C", "--pass"],{"help":"Password for authorization","dest":"password"}
     ],[
         ["-F", "--config"],{"help":"Configuration file to be used for request","dest":"configFile"}
+    ],[
+        ["-Y", "--setaccessory"],{"action":"store_true", "help":"Set characteristics of an accessory","dest":"setAccessoryCharacteristics"}
+    ],[
+        ["-N", "--name"],{"help":"Accessory name","dest":"name"}
+    ],[
+        ["-X", "--chars"],{"help":"Characteristics and values to set for an accessory","dest":"charSet","nargs":"+"}
     ]
 ]

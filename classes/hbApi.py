@@ -40,7 +40,7 @@ class hbApi:
                 for i in pathDef['parameters']:
                     for key in parameters.keys():
                         if i['name'] == key:
-                            path.replace("{"+key+"}",parameters[key])
+                            path = path.replace("{"+key+"}",parameters[key])
                 
                 if path.find("{") != -1:
                     raise Exception("Problem processing parameters")
@@ -67,7 +67,7 @@ class hbApi:
                         raise Exception("'"+ key +"' is not an accepted property for this method")
                     
                     if self.typeMap[str(type(requestBody[key]))] != schemaDef['properties'][key]['type']:
-                        raise Exception("Data type for '" + key + "' property is not correct: '"+ self.typeMap[typeCompare] +"' provided, '" + schemaDef['properties'][key]['type'] +"' expected")
+                        raise Exception("Data type for '" + key + "' property is not correct: '"+ self.typeMap[str(type(requestBody[key]))] +"' provided, '" + schemaDef['properties'][key]['type'] +"' expected")
 
             # process security
             if 'security' in pathDef:
@@ -115,6 +115,7 @@ class hbApi:
         if self.authorization['status_code'] != 201:
             print("Error with authorization: "+ json.dumps(self.authorization['body']))
 
+    #helper method to find uniqueId for an accessory based on the serviceName
     def findAccessories(self, name):
         try: 
             accessoryQuery = self.apiRequest("/api/accessories","get")

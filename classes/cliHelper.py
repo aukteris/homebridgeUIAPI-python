@@ -19,42 +19,6 @@ class cliExecutor:
         
     def processArgs(self,args):
 
-        # process a direct API request
-        if args.directApiRequest == True:
-            try:
-                if args.endpoint == None:
-                    raise Exception("Endpoint required for API reqest")
-
-                if args.method == None:
-                    raise Exception("Method requested for API request")
-
-                if args.sessionId == None:
-                    raise Exception ("Session required for an API request")
-                
-                sessionStoreFile = self.sessionStoreDir + '/' + args.sessionId + '.json'
-
-                if not os.path.exits(sessionStoreFile):
-                    raise Exception("Session ID not found")
-
-                else:
-                    with open(sessionStoreFile, "r") as f:
-                        sessionData = json.loads(f.read())
-
-                    self.hb = hbApi.hbApi(sessionData['host'],sessionData['port'])
-                    self.hb.authorization = sessionData
-
-                    checkAuth = self.hb.apiRequest("api/auth/check","get")
-
-                    if not checkAuth['status_code'] == 200:
-                        raise Exception('Authorization is no longer valid')
-                    else:
-                        requestResult = self.hb.apiRequest(args.endpoint,args.method)
-
-
-            except Exception as inst:
-                print(inst)
-
-
         # process autorization request and maintain sessions per user/host
         if args.authorizationRequest == True:
 
@@ -115,5 +79,88 @@ class cliExecutor:
                     print(sessionId)
             
                 
+            except Exception as inst:
+                print(inst)
+        
+         # process a direct API request
+        if args.directApiRequest == True:
+            try:
+                if args.endpoint == None:
+                    raise Exception("Endpoint required for API reqest")
+
+                if args.method == None:
+                    raise Exception("Method requested for API request")
+
+                if args.sessionId == None:
+                    raise Exception("Session required for an API request")
+                
+                sessionStoreFile = self.sessionStoreDir + '/' + args.sessionId + '.json'
+                
+                if not os.path.exists(sessionStoreFile):
+                    raise Exception("Session ID not found")
+
+                else:
+                    with open(sessionStoreFile, "r") as f:
+                        sessionData = json.loads(f.read())
+                    
+
+                    self.hb = hbApi.hbApi(sessionData['host'],sessionData['port'])
+                    self.hb.authorization = sessionData
+
+                    checkAuth = self.hb.apiRequest("/api/auth/check","get")
+
+                    if not checkAuth['status_code'] == 200:
+                        raise Exception('Authorization is no longer valid')
+                    else:
+                        requestResult = self.hb.apiRequest(args.endpoint,args.method,requestBody=json.loads(args.requestBody),parameters=json.loads(args.parameters))
+                        print(json.dumps(requestResult))
+
+            except Exception as inst:
+                print(inst)
+        
+        if args.setAccessoryCharacteristics == True:
+            try:
+                if args.name == None:
+                    raise Exception("Accessory name required to set characteristics")
+                
+                if args.charSet == None:
+                    raise Exception("Characteristics and values required to set characteristics")
+                
+                if args.sessionId == None:
+                    raise Exception ("Session required to set characteristics")
+
+                #create the characteristic data
+                charData = {'characteristicType':args.charSet[0],
+                            'value':args.charSet[1]}
+
+                sessionStoreFile = self.sessionStoreDir + '/' + args.sessionId + '.json'
+                
+                if not os.path.exists(sessionStoreFile):
+                    raise Exception("Session ID not found")
+
+                else:
+                    with open(sessionStoreFile, "r") as f:
+                        sessionData = json.loads(f.read())
+
+                    self.hb = hbApi.hbApi(sessionData['host'],sessionData['port'])
+                    self.hb.authorization = sessionData
+
+                    checkAuth = self.hb.apiRequest("/api/auth/check","get")
+
+                    if not checkAuth['status_code'] == 200:
+                        raise Exception('Authorization is no longer valid')
+                    else:
+                        findAccessories = self.hb.findAccessories(args.name)
+
+                        if type(findAccessories) is not None and len(findAccessories) > 0:
+                            parameters = {'uniqueId':findAccessories[0]['uniqueId']}
+
+                            setResult = self.hb.apiRequest('/api/accessories/{uniqueId}', 'put', requestBody=charData, parameters=parameters)
+
+                            if not setResult['status_code'] == 200:
+                                print("HTTP Status " + str(setResult['status_code']) + " " + setResult['body']['error'] + ": " + setResult['body']['message'])
+                            else:
+                                print(setResult['status_code'])
+
             except Exception as inst:
                 print(inst)
