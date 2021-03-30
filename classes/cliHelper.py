@@ -23,23 +23,35 @@ class cliExecutor:
         if args.authorizationRequest == True:
 
             try:
-                if args.host == None:
+                if args.configFile == None:
+                    config = {}
+                    config['host'] = args.host
+                    config['port'] = args.port
+                    config['username'] = args.username
+                    config['password'] = args.password
+                else:
+                    with open(args.configFile, "r") as f:
+                        config = json.loads(f.read())
+
+
+                
+                if config['host'] == None:
                     raise Exception("Host required for Authorization reqest")
 
-                if not args.port == None:
-                    port = args.port
+                if not config['port'] == None:
+                    port = config['port']
                 else:
                     port = 8581
                 
-                if args.username == None:
+                if config['username'] == None:
                     raise Exception("Username required for Authorization reqest")
                 
-                if args.password == None:
+                if config['password'] == None:
                     raise Exception("Password required for Authorization reqest")
                 
-                self.hb = hbApi.hbApi(args.host,port)
+                self.hb = hbApi.hbApi(config['host'],port)
 
-                authStoreFile = self.authStoreDir + '/' + args.username + '@' + args.host
+                authStoreFile = self.authStoreDir + '/' + config['username'] + '@' + config['host']
 
                 #check if we have authorization already
                 if os.path.exists(authStoreFile):
@@ -58,9 +70,9 @@ class cliExecutor:
                 
                     checkAuth = self.hb.apiRequest("/api/auth/check","get")
                     if not checkAuth['status_code'] == 200:
-                        self.hb.authorize(args.username,args.password)
+                        self.hb.authorize(config['username'],config['password'])
                 else:
-                    self.hb.authorize(args.username,args.password)
+                    self.hb.authorize(config['username'],config['password'])
 
                 if not self.hb.authorization['status_code'] == 201:
                     raise Exception('Authorization failure')
