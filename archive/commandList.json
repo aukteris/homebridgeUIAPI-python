@@ -6,9 +6,9 @@
     ],[
         ["-M", "--method"],{"help":"Method for the API request","dest":"method"}
     ],[
-        ["-B", "--requestbody"],{"help":"JSON data for the API request body","dest":"requestBody"}
+        ["-B", "--requestbody"],{"help":"JSON data for the API request body","dest":"requestBody","default":"{}"}
     ],[
-        ["-T", "--parameters"],{"help":"JSON data for the API parameters","dest":"parameters"}
+        ["-T", "--parameters"],{"help":"JSON data for the API parameters","dest":"parameters","default":"{}"}
     ],[
         ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId"}
     ],[

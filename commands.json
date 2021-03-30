@@ -1,70 +1,41 @@
-{
-    "commandDefs":{
-        "directApiRequest":{
-            "name":"directApiRequest",
-            "hasValue":false,
-            "dependsOn":["endpoint","method"],
-            "executive":true
-        },
-        "endpoint":{
-            "name":"endpoint",
-            "hasValue":true,
-            "dependsOn":[],
-            "executive":false
-        },
-        "method":{
-            "name":"method",
-            "hasValue":true,
-            "dependsOn":[],
-            "executive":false
-        },
-        "authorizationRequest":{
-            "name":"authorizationRequest",
-            "hasValue":false,
-            "dependsOn":["host","port","username","password"],
-            "executive":true
-        },
-        "host":{
-            "name":"host",
-            "hasValue":true,
-            "dependsOn":[],
-            "executive":false
-        },
-        "port":{
-            "name":"port",
-            "hasValue":true,
-            "dependsOn":[],
-            "executive":false
-        },
-        "username":{
-            "name":"username",
-            "hasValue":true,
-            "dependsOn":[],
-            "executive":false
-        },
-        "password":{
-            "name":"password",
-            "hasValue":true,
-            "dependsOn":[],
-            "executive":false
-        }
-    },
-    "commandList":{
-        "-R":{"$ref":"#/commandDefs/directApiRequest"},
-        "-request":{"$ref":"#/commandDefs/directApiRequest"},
-        "-A":{"$ref":"#/commandDefs/authorizationRequest"},
-        "-authorize":{"$ref":"#/commandDefs/authorizationRequest"},
-        "-E":{"$ref":"#/commandDefs/endpoint"},
-        "-endpoint":{"$ref":"#/commandDefs/endpoint"},
-        "-M":{"$ref":"#/commandDefs/method"},
-        "-method":{"$ref":"#/commandDefs/method"},
-        "-H":{"$ref":"#/commandDefs/host"},
-        "-host":{"$ref":"#/commandDefs/host"},
-        "-P":{"$ref":"#/commandDefs/port"},
-        "-port":{"$ref":"#/commandDefs/port"},
-        "-U":{"$ref":"#/commandDefs/username"},
-        "-user":{"$ref":"#/commandDefs/username"},
-        "-p":{"$ref":"#/commandDefs/password"},
-        "-pass":{"$ref":"#/commandDefs/password"}
-    }
-}
+[
+    [
+        ["authorize"],{"help":"Authorize the API for requests to a particular host"},[
+            [
+                ["-H", "--host"],{"help":"Host for authorization or api request","dest":"host"}
+            ],[
+                ["-P", "--port"],{"help":"Port for authorization","dest":"port"}
+            ],[
+                ["-U", "--user"],{"help":"Usernamne for authorization","dest":"username"}
+            ],[
+                ["-C", "--pass"],{"help":"Password for authorization","dest":"password"}
+            ],[
+                ["-F", "--config"],{"help":"Configuration file to be used for request","dest":"configFile"}
+            ]
+        ]
+    ],[
+        ["request"],{"help":"Direct reqeust against the API"},[
+            [
+                ["-E", "--endpoint"],{"help":"Endpoint for the API request","dest":"endpoint","required":true}
+            ],[
+                ["-M", "--method"],{"help":"Method for the API request","dest":"method","required":true}
+            ],[
+                ["-B", "--requestbody"],{"help":"JSON data for the API request body","dest":"requestBody","default":"{}"}
+            ],[
+                ["-T", "--parameters"],{"help":"JSON data for the API parameters","dest":"parameters","default":"{}"}
+            ],[
+                ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId","required":true}
+            ]
+        ]
+    ],[
+        ["setaccessory"],{"help":"Set characteristics of an accessory"},[
+            [
+                ["-N", "--name"],{"help":"Accessory name","dest":"name","required":true}
+            ],[
+                ["-X", "--chars"],{"help":"Characteristics and values to set for an accessory","dest":"charSet","nargs":"+","required":true}
+            ],[
+                ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId","required":true}
+            ]
+        ]
+    ]
+]

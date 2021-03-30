@@ -1,11 +1,19 @@
 import argparse
 import json
 
-from classes import cliHelper
+"""
+parser = argparse.ArgumentParser(prog='PROG')
+subparsers = parser.add_subparsers(help='sub-command help',dest='action')
 
-thisExec = cliHelper.cliExecutor()
+parser_a = subparsers.add_parser('a', help='a help')
+parser_a.add_argument('bar', type=int, help='bar help')
 
-# parse command line arguments
+subparsers.add_parser('b', help='b help').add_argument('--baz', choices='XYZ', help='baz help')
+
+args = parser.parse_args()
+print(args)
+"""
+
 clFile = "commands.json"
 with open(clFile, "r") as f:
     commandList = json.loads(f.read())
@@ -20,6 +28,5 @@ for i in commandList:
     for c in i[2]:
         subparserParser[i[0][0]].add_argument(*c[0],**c[1])
 
-# process command line arguments
 args = parser.parse_args()
-thisExec.processArgs(args)
+print(json.dumps({"test":True}))
