@@ -98,7 +98,6 @@ class cliExecutor:
     # process a direct API request
     def request(self,args):
         try:
-
             if not self.loadSession(args.sessionId):
                 raise Exception('Session load failed')
             else:
@@ -113,7 +112,7 @@ class cliExecutor:
             print(inst)
 
     # set the characteristics of an accessory
-    def setaccessory(self,args):
+    def setaccessorychar(self,args):
         try:
 
             #create the characteristic data
@@ -135,6 +134,47 @@ class cliExecutor:
                         print("HTTP Status " + str(setResult['status_code']) + " " + setResult['body']['error'] + ": " + setResult['body']['message'])
                     else:
                         print(setResult['status_code'])
+                else:
+                    raise Exception("No accessories found")
+
+        except Exception as inst:
+            print(inst)
+
+    def accessorycharvalues(self,args):
+        try:
+            if not self.loadSession(args.sessionId):
+                raise Exception('Session load failed')
+            else:
+                findAccessories = self.hb.findAccessoriesByName(args.name)
+
+                if type(findAccessories) is not None:
+                    values = []
+                    for i in findAccessories:
+                        for c in i['serviceCharacteristics']:
+                            for x in args.charSet:
+                                if x == c['type']:
+                                    values.append(c['value'])
+
+                    print(','.join(map(str,values)))
+        
+        except Exception as inst:
+            print(inst)
+
+    def listaccessorychars(self,args):
+        try:
+            if not self.loadSession(args.sessionId):
+                raise Exception('Session load failed')
+            else:
+                findAccessories = self.hb.findAccessoriesByName(args.name)
+
+                if type(findAccessories) is not None:
+                    print("\tCharacteristic\tValue\tRead\tWrite\n")
+                    for i in findAccessories:
+                        print(i['serviceName'])
+
+                        for c in i['serviceCharacteristics']:
+                            print("\t" + c['type'] + "\t" + str(c['value']) + "\t" + str(c['canRead']) + "\t" + str(c['canWrite']))
+
                 else:
                     raise Exception("No accessories found")
 

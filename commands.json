@@ -28,11 +28,29 @@
             ]
         ]
     ],[
-        ["setaccessory"],{"help":"Set characteristics of an accessory"},[
+        ["setaccessorychar"],{"help":"Set characteristics of an accessory"},[
             [
                 ["-N", "--name"],{"help":"Accessory name","dest":"name","required":true}
             ],[
                 ["-X", "--chars"],{"help":"Characteristics and values to set for an accessory","dest":"charSet","nargs":"+","required":true}
+            ],[
+                ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId","required":true}
+            ]
+        ]
+    ],[
+        ["accessorycharvalues"],{"help":"Get the current value of a characteristic on an accessory"},[
+            [
+                ["-N", "--name"],{"help":"Accessory name","dest":"name","required":true}
+            ],[
+                ["-X", "--chars"],{"help":"Characteristics to fetch values from an accessory","dest":"charSet","nargs":"+","required":true}
+            ],[
+                ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId","required":true}
+            ]
+        ]
+    ],[
+        ["listaccessorychars"],{"help":"Get all characteristics from an accessory and their values"},[
+            [
+                ["-N", "--name"],{"help":"Accessory name","dest":"name","required":true}
             ],[
                 ["-S", "--session"],{"help":"Session ID for use in most requests","dest":"sessionId","required":true}
             ]
