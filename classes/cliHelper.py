@@ -87,7 +87,9 @@ class cliExecutor:
                 f.write(json.dumps(self.hb.authorization))
                 f.close()
 
-                print(sessionId)
+                result = {'sessionId':sessionId}
+
+                print(json.dumps(result))
             
         except Exception as inst:
             print(inst)
@@ -135,7 +137,7 @@ class cliExecutor:
                     if not setResult['status_code'] == 200:
                         print("HTTP Status " + str(setResult['status_code']) + " " + setResult['body']['error'] + ": " + setResult['body']['message'])
                     else:
-                        print(setResult['status_code'])
+                        print(json.dumps(setResult))
                 else:
                     raise Exception("No accessories found")
 
@@ -149,15 +151,17 @@ class cliExecutor:
             else:
                 findAccessories = self.hb.findAccessoriesByName(args.name)
 
+                results = {}
+
                 if type(findAccessories) is not None:
                     values = []
                     for i in findAccessories:
                         for c in i['serviceCharacteristics']:
                             for x in args.charSet:
                                 if x == c['type']:
-                                    values.append(c['value'])
+                                    results[c['type']] = c['value']
 
-                    print(','.join(map(str,values)))
+                    print(json.dumps(results))
         
         except Exception as inst:
             print(inst)
