@@ -66,8 +66,8 @@ class hbApi:
                     if key not in schemaDef['properties']:
                         raise Exception("'"+ key +"' is not an accepted property for this method")
                     
-                    if self.typeMap[str(type(requestBody[key]))] != schemaDef['properties'][key]['type']:
-                        raise Exception("Data type for '" + key + "' property is not correct: '"+ self.typeMap[str(type(requestBody[key]))] +"' provided, '" + schemaDef['properties'][key]['type'] +"' expected")
+                    #if self.typeMap[str(type(requestBody[key]))] != schemaDef['properties'][key]['type']:
+                        #raise Exception("Data type for '" + key + "' property is not correct: '"+ self.typeMap[str(type(requestBody[key]))] +"' provided, '" + schemaDef['properties'][key]['type'] +"' expected")
 
             # process security
             if 'security' in pathDef:

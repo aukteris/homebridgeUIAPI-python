@@ -116,8 +116,10 @@ class cliExecutor:
         try:
 
             #create the characteristic data
+            formattedCharVal = int(args.charSet[1]) if args.charSet[1].isnumeric() else args.charSet[1]
+
             charData = {'characteristicType':args.charSet[0],
-                        'value':args.charSet[1]}
+                        'value':formattedCharVal}
 
             if not self.loadSession(args.sessionId):
                 raise Exception('Session load failed')
