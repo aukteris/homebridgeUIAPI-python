@@ -129,15 +129,25 @@ class cliExecutor:
                 findAccessories = self.hb.findAccessoriesByName(args.name)
 
                 if type(findAccessories) is not None:
-                    # TODO: make it work when multiple accessories are returned
-                    parameters = {'uniqueId':findAccessories[0]['uniqueId']}
+                    breakout = False
 
-                    setResult = self.hb.apiRequest('/api/accessories/{uniqueId}', 'put', requestBody=charData, parameters=parameters)
+                    for f in findAccessories:
+                        for c in f['serviceCharacteristics']:
+                            if c['type'] == args.charSet[0]:
+                                parameters = {'uniqueId':f['uniqueId']}
 
-                    if not setResult['status_code'] == 200:
-                        print("HTTP Status " + str(setResult['status_code']) + " " + setResult['body']['error'] + ": " + setResult['body']['message'])
-                    else:
-                        print(json.dumps(setResult))
+                                setResult = self.hb.apiRequest('/api/accessories/{uniqueId}', 'put', requestBody=charData, parameters=parameters)
+
+                                if not setResult['status_code'] == 200:
+                                    print("HTTP Status " + str(setResult['status_code']) + " " + setResult['body']['error'] + ": " + setResult['body']['message'])
+                                else:
+                                    print(json.dumps(setResult))
+
+                                breakout = True
+                                break
+
+                        if breakout == True:
+                            break
                 else:
                     raise Exception("No accessories found")
 
