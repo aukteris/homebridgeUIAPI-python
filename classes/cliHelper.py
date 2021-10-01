@@ -90,6 +90,7 @@ class cliExecutor:
                 result = {'sessionId':sessionId}
 
                 print(json.dumps(result))
+                return result
             
         except Exception as inst:
             print(inst)
@@ -142,6 +143,7 @@ class cliExecutor:
                                     print("HTTP Status " + str(setResult['status_code']) + " " + setResult['body']['error'] + ": " + setResult['body']['message'])
                                 else:
                                     print(json.dumps(setResult))
+                                    return setResult
 
                                 breakout = True
                                 break
