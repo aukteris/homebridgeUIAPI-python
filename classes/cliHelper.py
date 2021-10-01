@@ -174,6 +174,7 @@ class cliExecutor:
                                     results[c['type']] = c['value']
 
                     print(json.dumps(results))
+                    return results
         
         except Exception as inst:
             print(inst)
@@ -185,6 +186,8 @@ class cliExecutor:
             else:
                 findAccessories = self.hb.findAccessoriesByName(args.name)
 
+                results = {}
+
                 if type(findAccessories) is not None:
                     print("\tCharacteristic\tValue\tRead\tWrite\n")
                     for i in findAccessories:
@@ -192,6 +195,9 @@ class cliExecutor:
 
                         for c in i['serviceCharacteristics']:
                             print("\t" + c['type'] + "\t" + str(c['value']) + "\t" + str(c['canRead']) + "\t" + str(c['canWrite']))
+                            results[c['type']] = c['value']
+                    
+                    return results
 
                 else:
                     raise Exception("No accessories found")
