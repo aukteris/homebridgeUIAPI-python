@@ -3,7 +3,7 @@ import json
 import random
 import string
 
-from classes import hbApi
+from ..classes import hbApi
 
 class cliExecutor:
     authStoreDir = '.authStore'
@@ -90,6 +90,7 @@ class cliExecutor:
                 result = {'sessionId':sessionId}
 
                 print(json.dumps(result))
+                return result
             
         except Exception as inst:
             print(inst)
@@ -142,6 +143,7 @@ class cliExecutor:
                                     print("HTTP Status " + str(setResult['status_code']) + " " + setResult['body']['error'] + ": " + setResult['body']['message'])
                                 else:
                                     print(json.dumps(setResult))
+                                    return setResult
 
                                 breakout = True
                                 break
@@ -172,6 +174,7 @@ class cliExecutor:
                                     results[c['type']] = c['value']
 
                     print(json.dumps(results))
+                    return results
         
         except Exception as inst:
             print(inst)
@@ -183,6 +186,8 @@ class cliExecutor:
             else:
                 findAccessories = self.hb.findAccessoriesByName(args.name)
 
+                results = {}
+
                 if type(findAccessories) is not None:
                     print("\tCharacteristic\tValue\tRead\tWrite\n")
                     for i in findAccessories:
@@ -190,6 +195,9 @@ class cliExecutor:
 
                         for c in i['serviceCharacteristics']:
                             print("\t" + c['type'] + "\t" + str(c['value']) + "\t" + str(c['canRead']) + "\t" + str(c['canWrite']))
+                            results[c['type']] = c['value']
+                    
+                    return results
 
                 else:
                     raise Exception("No accessories found")
