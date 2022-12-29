@@ -14,10 +14,14 @@ class hbApi:
                         "<class 'bool'>":'boolean'}
 
         try:
-            pathToJson = "http://" + self.host + ":" + str(self.port) +"/swagger/json"
+            # pathToJson = "http://" + self.host + ":" + str(self.port) +"/swagger/json"
+            #r = requests.get(pathToJson)
+            #self.apiJsonDef = jsonref.loads(r.text)
             
-            r = requests.get(pathToJson)
-            self.apiJsonDef = jsonref.loads(r.text)
+            with open("swagger.json", "r") as f:
+                swaggerDef = json.loads(f.read())
+
+            self.apiJsonDef = swaggerDef['swaggerDoc']
             
         except:
             print("Unable to open Homebridge UI API JSON definition")
@@ -58,13 +62,13 @@ class hbApi:
                 
                 schemaDef = pathDef['requestBody']['content'][contentType]['schema']
                 
-                for i in schemaDef['required']:
-                    if i not in requestBody:
-                        raise Exception("Missing required property '"+ i +"' in the requestBody")
+                #for i in schemaDef['required']:
+                #    if i not in requestBody:
+                #        raise Exception("Missing required property '"+ i +"' in the requestBody")
 
-                for key in requestBody.keys():
-                    if key not in schemaDef['properties']:
-                        raise Exception("'"+ key +"' is not an accepted property for this method")
+                #for key in requestBody.keys():
+                #    if key not in schemaDef['properties']:
+                #        raise Exception("'"+ key +"' is not an accepted property for this method")
                     
                     #turns out the schemaDef is not reliable for the required type
                     #if self.typeMap[str(type(requestBody[key]))] != schemaDef['properties'][key]['type']:
@@ -81,7 +85,7 @@ class hbApi:
                             headers['Authorization'] = self.authorization['body']['token_type'] + " " + self.authorization['body']['access_token']
 
         except Exception as inst:
-            print(inst)
+            print(str(inst))
 
         except:
             print('Unkown error processing method')

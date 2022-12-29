@@ -1,5 +1,6 @@
 config.json
 token.txt
+swagger.json
 
 __pycache__
 
