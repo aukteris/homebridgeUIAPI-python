@@ -3,7 +3,7 @@ import json
 import random
 import string
 
-from classes import hbApi
+from . import hbApi
 
 class cliExecutor:
     authStoreDir = '.authStore'
