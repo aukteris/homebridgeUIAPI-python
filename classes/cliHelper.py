@@ -230,7 +230,7 @@ class cliExecutor:
             with open(sessionStoreFile, "r") as f:
                 sessionData = json.loads(f.read())
             
-            self.hb = hbApi.hbApi(sessionData['host'],sessionData['port'])
+            self.hb = hbApi.hbApi(sessionData['host'],sessionData['port'],sessionData['secure'])
             self.hb.authorization = sessionData
             
             if self.checkAuth():
