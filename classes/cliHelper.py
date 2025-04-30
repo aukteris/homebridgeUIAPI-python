@@ -50,7 +50,7 @@ class cliExecutor:
             if config['password'] == None:
                 raise Exception("Password required for Authorization reqest")
             
-            self.hb = hbApi.hbApi(config['host'],port,secure)
+            self.hb = hbApi.hbApi(config['host'],port,config['secure'])
 
             authStoreFile = self.authStoreDir + '/' + config['username'] + '@' + config['host']
 
