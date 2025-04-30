@@ -84,6 +84,9 @@ class cliExecutor:
                 f.write(sessionId)
                 f.close()
 
+                # hack to store the secure preference
+                self.hb.authorization['secure'] = config['secure']
+
                 f = open(sessionStoreFile, "w")
                 f.write(json.dumps(self.hb.authorization))
                 f.close()
