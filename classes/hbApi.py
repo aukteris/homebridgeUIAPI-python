@@ -103,7 +103,8 @@ class hbApi:
 
         try:
             methods = {"post": requests.post,"get": requests.get, "put": requests.put, "delete":requests.delete}
-            callout = methods[method](url=endpoint, data=requestBodyString, headers=headers)
+            # TODO: need to make option for configuring the certificate store 
+            callout = methods[method](url=endpoint, data=requestBodyString, headers=headers, verify="/etc/ssl/certs/ca-certificates.crt")
             
             response = {"status_code":callout.status_code,
                         "host":self.host,
