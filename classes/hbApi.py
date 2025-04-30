@@ -6,9 +6,10 @@ class hbApi:
     apiJsonDef = None
     authorization = None
 
-    def __init__(self,host,port=8581):
+    def __init__(self,host,port=8581,secure=False):
         self.host = host
         self.port = port
+        self.secure = secure
         self.typeMap = {"<class 'str'>":'string',
                         "<class 'int'>":'number',
                         "<class 'bool'>":'boolean'}
@@ -92,7 +93,9 @@ class hbApi:
 
         # compile all the details and then make the callout
         requestBodyString = json.dumps(requestBody)
-        endpoint = "http://" + self.host + ":" + str(self.port) + path
+        protocol = "https://"
+        if (self.secure == False) protocol = "http://"
+        endpoint = protocol + self.host + ":" + str(self.port) + path
         callout = None
         response = None
 

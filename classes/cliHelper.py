@@ -31,6 +31,7 @@ class cliExecutor:
                 config['port'] = args.port
                 config['username'] = args.username
                 config['password'] = args.password
+                config['secure'] = args.secure
             else:
                 with open(args.configFile, "r") as f:
                     config = json.loads(f.read())
@@ -49,7 +50,7 @@ class cliExecutor:
             if config['password'] == None:
                 raise Exception("Password required for Authorization reqest")
             
-            self.hb = hbApi.hbApi(config['host'],port)
+            self.hb = hbApi.hbApi(config['host'],port,secure)
 
             authStoreFile = self.authStoreDir + '/' + config['username'] + '@' + config['host']
 
