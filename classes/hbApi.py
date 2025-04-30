@@ -94,7 +94,9 @@ class hbApi:
         # compile all the details and then make the callout
         requestBodyString = json.dumps(requestBody)
         protocol = "https://"
-        if (self.secure == False) protocol = "http://"
+        if self.secure == False: 
+            protocol = "http://"
+            
         endpoint = protocol + self.host + ":" + str(self.port) + path
         callout = None
         response = None
