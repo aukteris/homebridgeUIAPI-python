@@ -3,6 +3,7 @@ token.txt
 swagger.json
 
 __pycache__
+venv
 
 .authStore
 .sessionStore

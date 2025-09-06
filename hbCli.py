@@ -1,9 +1,8 @@
 import argparse
 import json
 
-from classes import cliHelper
-
-thisExec = cliHelper.cliExecutor()
+from classes.cliExecutorRefactored import create_default_executor
+thisExec = create_default_executor()
 
 # parse command line arguments
 clFile = "commands.json"
